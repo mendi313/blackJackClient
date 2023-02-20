@@ -1,0 +1,6 @@
+.main-container{
+    background-image: url('../../public/cards-img/SL_120319_25700_14.jpg');
+    background-size: cover;
+    height: 100vh;
+    padding: 1rem;
+}
