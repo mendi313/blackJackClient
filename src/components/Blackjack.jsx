@@ -3,18 +3,12 @@ import Player from './Player';
 import ButtonsActions from './ButtonsActions';
 import Results from './Results';
 import '../styles/Blackjack.css';
-import {
-  reduceAce,
-  checkAce,
-  getValue,
-  getNewCard,
-  initDeck,
-  handleResultMessage,
-} from '../hooks/customHooks';
+import { reduceAce, checkAce, getValue, getNewCard, initDeck, handleResultMessage } from '../hooks/customHooks';
 
 const Blackjack = () => {
   const [dealerHand, setDealerHand] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
+  const [showApp, setShowApp] = useState(false);
   const [playerCanHit, setPlayerCanHit] = useState(true);
   const playerSum = useRef(0);
   const dealerSum = useRef(0);
@@ -64,6 +58,7 @@ const Blackjack = () => {
       playerAceCount.current = playerAceCount.current + checkAce(card.src);
       setPlayerHand((prev) => [...prev, card]);
     }
+    setShowApp(true)
   }
 
   function stay() {
@@ -77,10 +72,7 @@ const Blackjack = () => {
         } else return card;
       });
     });
-    messageProp.current = handleResultMessage(
-      playerSum.current,
-      dealerSum.current
-    );
+    messageProp.current = handleResultMessage(playerSum.current, dealerSum.current);
   }
 
   async function hit() {
@@ -100,23 +92,14 @@ const Blackjack = () => {
 
   return (
     <div className="body">
-      <Player
-        title={'Dealer'}
-        sum={playerCanHit ? '' : dealerSum.current}
-        cardsProps={dealerHand}
-      />
-      <Player
-        title={'Player'}
-        sum={playerSum.current}
-        cardsProps={playerHand}
-      />
-      <ButtonsActions
-        playerCanHit={playerCanHit}
-        hit={hit}
-        stay={stay}
-        playAgain={resetGame}
-      />
-      <Results message={messageProp.current} />
+      {showApp && (
+        <div>
+          <Player title={'Dealer'} sum={playerCanHit ? '' : dealerSum.current} cardsProps={dealerHand} />
+          <Player title={'Player'} sum={playerSum.current} cardsProps={playerHand} />
+          <ButtonsActions playerCanHit={playerCanHit} hit={hit} stay={stay} playAgain={resetGame} />
+          <Results message={messageProp.current} />
+        </div>
+      )}
     </div>
   );
 };
