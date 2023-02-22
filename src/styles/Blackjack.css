@@ -13,9 +13,10 @@
 
 .button {
   margin: 0.4rem;
-  width: 10%;
-  height: 35px;
-  font-size: 20px;
+  min-width: 18%;
+  height: 20%;
+  font-size: 1rem;
+  padding: 5px;
 }
 
 .result-message {
